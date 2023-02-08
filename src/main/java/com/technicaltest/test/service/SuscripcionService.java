@@ -17,6 +17,8 @@ public class SuscripcionService {
 
     private final SuscripcionRepository repository;
     private final SuscriptorRepository suscriptorRepository;
+    private final static String MESSAGE_SUSCRIPTOR_ACTIVO = "El suscriptor tiene una suscripción vigente";
+    private final static String MESSAGE_SUSCRIPTOR_NOT_FOUND = "El suscriptor no se encuentra registrado";
 
     public SuscripcionService(SuscripcionRepository repository, SuscriptorRepository suscriptorRepository) {
         this.repository = repository;
@@ -30,14 +32,14 @@ public class SuscripcionService {
         Suscripcion suscripcionActiva = this.repository.findByFechaAltaAndAndFechaBaja(request.getIdSuscriptor(), LocalDate.now());
 
         if(suscripcionActiva != null){
-            throw new Exceptions("El suscriptor tiene una suscripción vigente", HttpStatus.BAD_REQUEST);
+            throw new Exceptions(MESSAGE_SUSCRIPTOR_ACTIVO, HttpStatus.BAD_REQUEST);
         }
 
         Optional<Suscriptor> suscriptor = this.suscriptorRepository.findById(request.getIdSuscriptor());
 
 
         if(suscriptor.isEmpty()){
-            throw new Exceptions("El suscriptor no se encuentra registrado", HttpStatus.BAD_REQUEST);
+            throw new Exceptions(MESSAGE_SUSCRIPTOR_NOT_FOUND, HttpStatus.BAD_REQUEST);
         }
 
         Suscripcion suscripcion = new Suscripcion();

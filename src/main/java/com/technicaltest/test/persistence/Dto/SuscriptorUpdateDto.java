@@ -1,6 +1,7 @@
 package com.technicaltest.test.persistence.Dto;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Required;
 
 @Data
 public class SuscriptorUpdateDto {
