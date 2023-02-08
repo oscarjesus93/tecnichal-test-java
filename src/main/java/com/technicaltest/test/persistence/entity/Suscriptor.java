@@ -23,11 +23,8 @@ public class Suscriptor {
     private String tipoDocumento;
     private String direccion;
     private String telefono;
-
     @Column(unique = true)
     private String email;
-
-
     @Column(name = "nombre_usuario", unique = true)
     private String nombreUsuario;
     private String password;

@@ -5,14 +5,18 @@ import com.technicaltest.test.mapper.SuscriptorMapperDto;
 import com.technicaltest.test.persistence.Dto.SuscriptorDto;
 import com.technicaltest.test.persistence.entity.Suscriptor;
 import com.technicaltest.test.persistence.repository.SuscriptorRepository;
+import net.bytebuddy.asm.Advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SuscriptorService {
 
     private final SuscriptorRepository repository;
     private final SuscriptorMapperDto mapper;
+    private static final String MESSAGE = "La persona no pudo ser registrada";
 
     public SuscriptorService(SuscriptorRepository repository, SuscriptorMapperDto mapper){
         this.repository = repository;
@@ -32,9 +36,18 @@ public class SuscriptorService {
 
     public Suscriptor Create(SuscriptorDto suscriptorDto){
 
+        List<Suscriptor> suscriptorList = this.repository.findByNumeroDocumentoOrEmailOrNombreUsuario(suscriptorDto.getNumeroDocumento(),
+                                                                                            suscriptorDto.getEmail(),
+                                                                                            suscriptorDto.getNombreUsuario());
+
+        if(!suscriptorList.isEmpty()){
+            throw new Exceptions(MESSAGE, HttpStatus.BAD_REQUEST);
+        }
+
         Suscriptor suscriptor = this.mapper.MapDtoEntity(suscriptorDto);
 
         return this.repository.save(suscriptor);
+
     }
 
 }
