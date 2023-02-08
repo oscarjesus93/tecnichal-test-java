@@ -16,16 +16,19 @@ public class Suscriptor {
     private String nombre;
     private String apellido;
 
-    @Column(name = "numero_documento")
+    @Column(name = "numero_documento", unique = true)
     private String numeroDocumento;
 
     @Column(name = "tipo_documento")
     private String tipoDocumento;
     private String direccion;
     private String telefono;
+
+    @Column(unique = true)
     private String email;
 
-    @Column(name = "nombre_usuario")
+
+    @Column(name = "nombre_usuario", unique = true)
     private String nombreUsuario;
     private String password;
 
