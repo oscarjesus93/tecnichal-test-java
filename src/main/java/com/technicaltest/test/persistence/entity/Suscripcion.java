@@ -3,7 +3,9 @@ package com.technicaltest.test.persistence.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -13,8 +15,8 @@ public class Suscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSuscripcion;
-    private LocalDateTime fechaAlta;
-    private LocalDateTime fechaBaja;
+    private LocalDate fechaAlta;
+    private LocalDate fechaBaja;
     private String motivoFin;
 
     @ManyToOne

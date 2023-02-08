@@ -10,5 +10,4 @@ public interface SuscriptorRepository extends JpaRepository<Suscriptor, Long> {
     Suscriptor findByTipoDocumentoAndNumeroDocumento(String TipoDocumento, String NumeroDocumento);
 
     List<Suscriptor> findByNumeroDocumentoOrEmailOrNombreUsuario(String numeroDocumento, String email, String nombreUsuario);
-
 }

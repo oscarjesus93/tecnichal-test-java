@@ -1,6 +1,7 @@
 package com.technicaltest.test.mapper;
 
 import com.technicaltest.test.persistence.Dto.SuscriptorDto;
+import com.technicaltest.test.persistence.Dto.SuscriptorUpdateDto;
 import com.technicaltest.test.persistence.entity.Suscriptor;
 import org.springframework.stereotype.Component;
 

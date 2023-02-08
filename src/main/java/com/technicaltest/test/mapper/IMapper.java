@@ -5,6 +5,6 @@ import java.security.NoSuchAlgorithmException;
 
 public interface IMapper <I, O> {
 
-    public O MapDtoEntity(I in) throws UnsupportedEncodingException, NoSuchAlgorithmException;
+    public O MapDtoEntity(I in);
 
 }

@@ -1,14 +1,51 @@
 package com.technicaltest.test.service;
 
+import com.technicaltest.test.exceptions.Exceptions;
+import com.technicaltest.test.persistence.Dto.SuscripcionDto;
+import com.technicaltest.test.persistence.entity.Suscripcion;
+import com.technicaltest.test.persistence.entity.Suscriptor;
 import com.technicaltest.test.persistence.repository.SuscripcionRepository;
+import com.technicaltest.test.persistence.repository.SuscriptorRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class SuscripcionService {
 
     private final SuscripcionRepository repository;
+    private final SuscriptorRepository suscriptorRepository;
 
-    public SuscripcionService(SuscripcionRepository repository) {
+    public SuscripcionService(SuscripcionRepository repository, SuscriptorRepository suscriptorRepository) {
         this.repository = repository;
+        this.suscriptorRepository = suscriptorRepository;
+    }
+
+    public Suscripcion Create(SuscripcionDto request){
+
+        //consultados que no tenga suscripciones activas el suscriptor
+
+        Suscripcion suscripcionActiva = this.repository.findByFechaAltaAndAndFechaBaja(request.getIdSuscriptor(), LocalDate.now());
+
+        if(suscripcionActiva != null){
+            throw new Exceptions("El suscriptor tiene una suscripción vigente", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Suscriptor> suscriptor = this.suscriptorRepository.findById(request.getIdSuscriptor());
+
+
+        if(suscriptor.isEmpty()){
+            throw new Exceptions("El suscriptor no se encuentra registrado", HttpStatus.BAD_REQUEST);
+        }
+
+        Suscripcion suscripcion = new Suscripcion();
+        suscripcion.setSuscriptor(suscriptor.get());
+        suscripcion.setFechaAlta(LocalDate.now());
+        suscripcion.setFechaBaja(LocalDate.now().plusDays(30));
+
+        return this.repository.save(suscripcion);
+
     }
 }
