@@ -40,7 +40,6 @@ public class SuscriptorService {
     }
 
     public Suscriptor Create(SuscriptorDto suscriptorDto){
-
         List<Suscriptor> suscriptorList = this.repository.findByNumeroDocumentoOrEmailOrNombreUsuario(suscriptorDto.getNumeroDocumento(),
                                                                                             suscriptorDto.getEmail(),
                                                                                             suscriptorDto.getNombreUsuario());
@@ -49,7 +48,9 @@ public class SuscriptorService {
             throw new Exceptions(MESSAGE, HttpStatus.BAD_REQUEST);
         }
 
+        suscriptorDto.setPassword(suscriptorDto.getPassword());
         Suscriptor suscriptor = this.mapper.MapDtoEntity(suscriptorDto);
+
 
         return this.repository.save(suscriptor);
 
