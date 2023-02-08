@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SuscriptorRepository extends JpaRepository<Suscriptor, Long> {
 
+    Suscriptor findByTipoDocumentoAndNumeroDocumento(String TipoDocumento, String NumeroDocumento);
 
 
 }
